@@ -48,12 +48,12 @@ class GmlLoaderDialog(QtGui.QDialog):
         gdaltimeout = 5
         gdal.SetConfigOption('GDAL_HTTP_TIMEOUT', str(gdaltimeout))
 
-        if (self.ui.chkAttributesToFields.isChecked()):
+        if self.ui.chkAttributesToFields.isChecked():
             gdal.SetConfigOption('GML_ATTRIBUTES_TO_OGR_FIELDS', 'YES')
         else:
             gdal.SetConfigOption('GML_ATTRIBUTES_TO_OGR_FIELDS', 'NO')
 
-        if (self.ui.chkResolveXlinkHref.isChecked()):
+        if self.ui.chkResolveXlinkHref.isChecked():
             gdal.SetConfigOption('GML_SKIP_RESOLVE_ELEMS', 'NONE')
         else:
             gdal.SetConfigOption('GML_SKIP_RESOLVE_ELEMS', 'ALL')
@@ -61,15 +61,20 @@ class GmlLoaderDialog(QtGui.QDialog):
 
         gml_file = QtGui.QFileDialog.getOpenFileName(self, 'Open File', '', 'GML (*.gml)')
 
+        target_gfs = str(gml_file).replace('.gml', '.gfs')
         if len(self.gfs_file) > 0:
             if len(gml_file):
-                target_gfs = str(gml_file).replace('.gml', '.gfs')
                 if self.gfs_file != target_gfs:
                     if os.path.isfile(target_gfs):
+                        shutil.copyfile(target_gfs, target_gfs + '.bak')
                         os.remove(target_gfs)
                     shutil.copyfile(self.gfs_file, target_gfs)
+        else:
+            if os.path.isfile(target_gfs):
+                shutil.copyfile(target_gfs, target_gfs + '.bak')
+                os.remove(target_gfs)
 
-        if len(gml_file):
+        if len(gml_file) > 0:
             gml_resolved = gml_file.replace('.gml', '.resolved.gml')
             if os.path.isfile(gml_resolved):
                 os.remove(gml_resolved)
