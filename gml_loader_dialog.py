@@ -25,7 +25,7 @@
 from PyQt4 import QtGui, QtCore
 from gml_loader_dialog_base import Ui_GmlLoaderDialogBase
 import shutil
-import gdal
+from osgeo import gdal
 import os
 
 class GmlLoaderDialog(QtGui.QDialog):

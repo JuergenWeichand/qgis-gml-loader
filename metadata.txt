@@ -10,7 +10,8 @@
 name=GML Loader
 qgisMinimumVersion=2.4
 description=Load GML using OGR with customized config options
-version=0.1
+about=Load GML using OGR with customized config options
+version=0.1.1
 author=Juergen Weichand
 email=juergen@weichand.de
 
